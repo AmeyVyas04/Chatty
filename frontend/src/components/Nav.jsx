@@ -1,7 +1,7 @@
 import React from 'react'
 
 import LogoutButton from './Logout';
-
+import { Link } from "react-router-dom";
 
 function Nav() {
  
@@ -33,7 +33,7 @@ function Nav() {
             <span className="badge">New</span>
           </a>
         </li>
-        <li><a href='/setting'>Settings</a></li>
+        <li><Link to="/setting">Settings</Link></li>
         <li>
           <LogoutButton /> {/* ✅ Just use it, no props needed */}
         </li>
