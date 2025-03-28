@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import { useauthstore } from "../store/authStore";
 import { Eye, EyeOff, Loader2, Mail, MessageSquare, User, Lock } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom"; // ✅ Import useNavigate
-import { Link } from "react-router-dom";
+
 function Signup() {
   const [showpassword, setshowpassword] = useState(false);
   const [formdata, setformdata] = useState({
