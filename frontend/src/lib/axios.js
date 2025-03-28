@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosinstance = axios.create({
-    baseURL: "http://localhost:5050/api",
+    baseURL: "https://chatty-1-i7qj.onrender.com/api",
     withCredentials: true, // ✅ Ensures cookies are sent (if needed)
     headers: {
         "Content-Type": "application/json",
