@@ -67,11 +67,12 @@ function Signup() {
           <a className="btn btn-ghost text-xl" href="/">Chatting App</a>
         </div>
         <div className="flex gap-2">
-  <Link to="/signup">
-    <button className="btn btn-soft btn-primary border-none bg-white hover:bg-purple-900 mr-10">
-      Signup
-    </button>
-  </Link>
+ <Link to="/login">
+  <button className="btn btn-soft btn-primary border-none bg-white hover:bg-purple-900 mr-10">
+    Login
+  </button>
+</Link>
+
 </div>
       </div>
       {/* Navbar End */}
