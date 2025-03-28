@@ -106,37 +106,54 @@ export const logout = (req, res) => {
 
 export const updateprofile = async (req, res) => {
     try {
-      const { profilePic } = req.body;
-      const userId = req.user._id;
-  
-      if (!profilePic) {
-        return res.status(400).json({ message: "Profile pic is required" });
-      }
-  
-      const uploadResponse = await cloudinary.uploader.upload(profilePic);
-      const updatedUser = await User.findByIdAndUpdate(
-        userId,
-        { profilePic: uploadResponse.secure_url },
-        { new: true }
-      );
-  
-      res.status(200).json(updatedUser);
-    } catch (error) {
-      console.log("error in update profile:", error);
-      res.status(500).json({ message: "Internal server error" });
-    }
-  };
+        const { profilePic } = req.body;
+        const userId = req.user._id;
 
-export const checkauth=(req,res)=>{
-        try {
-            if (!req.user) {
-                return res.status(401).json({ message: "Unauthorized" });
-            }
-            res.status(200).json(req.user);
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ message: "Internal server error" });
+        if (!profilePic) {
+            return res.status(400).json({ message: "Profile pic is required" });
         }
-    };
+
+        // Upload image to Cloudinary
+        const uploadResponse = await cloudinary.uploader.upload(profilePic, {
+            folder: "profile_pictures", // Optional: Store in a specific folder
+        });
+
+        // Update user in MongoDB
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { profilepic: uploadResponse.secure_url }, // Ensure the field matches MongoDB
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error("Error in update profile:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+export const checkauth = async (req, res) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        // Fetch the latest user data from MongoDB
+        const updatedUser = await User.findById(req.user._id).select("-password");
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error("Check Auth Error:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
     
 
