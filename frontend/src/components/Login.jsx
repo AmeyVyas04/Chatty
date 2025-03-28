@@ -23,11 +23,13 @@ function Login() {
   <div className="flex-1">
     <a className="btn btn-ghost text-xl" href='/'>Chatting App</a>
   </div>
-  <div className="flex gap-2">
-    <a href="/signup">
-    <button className="btn btn-soft btn-primary border-none bg-white hover:bg-purple-900 mr-10">Signup</button>
-    </a>
-  </div>
+ <div className="flex gap-2">
+  <Link to="/signup">
+    <button className="btn btn-soft btn-primary border-none bg-white hover:bg-purple-900 mr-10">
+      Signup
+    </button>
+  </Link>
+</div>
 </div>
 {/* nav ends */}
 
