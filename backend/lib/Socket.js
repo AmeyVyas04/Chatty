@@ -7,9 +7,11 @@ const app = express();
 
 // ✅ Fix CORS for Express API
 app.use(cors({
-    origin: "https://chatty1-delta.vercel.app/",
-    credentials: true
+    origin: "https://chatty1-delta.vercel.app",  // Remove the extra `/`
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true  // If using cookies or authentication
 }));
+
 
 export function getReceiverSocketId(userid) {
     return userSocketMap[userid];
@@ -19,11 +21,12 @@ const server = http.createServer(app);
 
 // ✅ Fix CORS for Socket.io
 const io = new Server(server, {
-    cors: {
-        origin: "https://chatty1-delta.vercel.app/",
-        methods: ["GET", "POST"],
-        credentials: true
-    }
+cors({
+    origin: "https://chatty1-delta.vercel.app",  // Remove the extra `/`
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true  // If using cookies or authentication
+});
+
 });
 
 // ✅ Store online users {userId: socketId}
