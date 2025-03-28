@@ -53,3 +53,4 @@ io.on("connection", (socket) => {
         io.emit("getOnlineUsers", Object.keys(userSocketMap)); 
     });
 });
+export { io, server, app };
