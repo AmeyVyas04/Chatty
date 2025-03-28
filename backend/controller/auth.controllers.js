@@ -58,22 +58,26 @@ export const login = async (req, res) => {
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
-        // ✅ Compare hashed password with entered password
+        // ✅ Compare hashed password
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
         // ✅ Generate JWT token
-        const token = jwt.sign({ userid: user._id }, process.env.JWT_SECRTE, { expiresIn: "7d" });
+        const token = jwt.sign({ userid: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+
+        console.log("Generated Token:", token);  // ✅ Debugging
 
         // ✅ Set HTTP-only cookie
         res.cookie("jwt", token, {
-            httpOnly: true,   // Prevents client-side access (XSS protection)
-            secure: process.env.NODE_ENV === "production",  // Use secure cookies in production
-            sameSite: "Strict", // Protect against CSRF
+            httpOnly: true,    // Prevents access from frontend JavaScript
+            secure: process.env.NODE_ENV === "production",  // Only secure in production
+            sameSite: "None",  // ✅ Important for cross-origin requests!
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
+
+        console.log("Cookies Set:", res.getHeaders()["set-cookie"]);  // ✅ Debugging
 
         res.status(200).json({ message: "User logged in successfully" });
 
