@@ -13,12 +13,12 @@ dotenv.config();
 let port = process.env.PORT 
 
 
-app.use(
-    cors({
-      origin: "https://chatty1-delta.vercel.app/",
-      credentials: true,
-    })
-  );
+app.use(cors({
+    origin: "https://chatty1-delta.vercel.app",  // Remove the extra `/`
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true  // If using cookies or authentication
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: '50mb' }));
