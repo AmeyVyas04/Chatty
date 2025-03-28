@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import { useauthstore } from "../store/authStore";
 import { Eye, EyeOff, Loader2, Mail, MessageSquare, User, Lock } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom"; // ✅ Import useNavigate
-
+import { Link } from "react-router-dom";
 function Signup() {
   const [showpassword, setshowpassword] = useState(false);
   const [formdata, setformdata] = useState({
@@ -67,12 +67,12 @@ function Signup() {
           <a className="btn btn-ghost text-xl" href="/">Chatting App</a>
         </div>
         <div className="flex gap-2">
-          <a href="/login">
-            <button className="btn btn-soft btn-primary border-none bg-white hover:bg-purple-900 mr-10">
-              Login
-            </button>
-          </a>
-        </div>
+  <Link to="/signup">
+    <button className="btn btn-soft btn-primary border-none bg-white hover:bg-purple-900 mr-10">
+      Signup
+    </button>
+  </Link>
+</div>
       </div>
       {/* Navbar End */}
 
