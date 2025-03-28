@@ -7,7 +7,7 @@ const app = express();
 
 // ✅ Fix CORS for Express API
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://chatty1-delta.vercel.app/",
     credentials: true
 }));
 
@@ -20,7 +20,7 @@ const server = http.createServer(app);
 // ✅ Fix CORS for Socket.io
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: "https://chatty1-delta.vercel.app/",
         methods: ["GET", "POST"],
         credentials: true
     }
