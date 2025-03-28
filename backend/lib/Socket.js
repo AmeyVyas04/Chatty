@@ -12,33 +12,32 @@ app.use(cors({
     credentials: true  // If using cookies or authentication
 }));
 
-
-export function getReceiverSocketId(userid) {
-    return userSocketMap[userid];
-  }
-
 const server = http.createServer(app);
 
-// ✅ Fix CORS for Socket.io
+// ✅ Fix CORS for Socket.io (Correct Syntax)
 const io = new Server(server, {
-cors({
-    origin: "https://chatty1-delta.vercel.app",  // Remove the extra `/`
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true  // If using cookies or authentication
-});
-
+    cors: {
+        origin: "https://chatty1-delta.vercel.app",
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true
+    }
 });
 
 // ✅ Store online users {userId: socketId}
 const userSocketMap = {};
 
-io.on("connection", (socket) => {  // ✅ Change "connect" to "connection"
+// ✅ Get receiver socket ID function (placed AFTER userSocketMap declaration)
+export function getReceiverSocketId(userid) {
+    return userSocketMap[userid];
+}
+
+io.on("connection", (socket) => {  
     console.log("A user connected:", socket.id);
 
-    const userid = socket.handshake.query.userid;  // ✅ Get user ID from query
+    const userid = socket.handshake.query.userid;  
 
     if (userid) {
-        userSocketMap[userid] = socket.id;  // ✅ Store socket ID
+        userSocketMap[userid] = socket.id;  
     }
 
     // 🔹 Notify all users about online users
@@ -48,13 +47,9 @@ io.on("connection", (socket) => {  // ✅ Change "connect" to "connection"
         console.log("A user disconnected:", socket.id);
 
         if (userid && userSocketMap[userid] === socket.id) {
-            delete userSocketMap[userid];  // ✅ Remove only if it matches the socket ID
+            delete userSocketMap[userid];  
         }
 
-        io.emit("getOnlineUsers", Object.keys(userSocketMap)); // 🔹 Notify after removal
+        io.emit("getOnlineUsers", Object.keys(userSocketMap)); 
     });
 });
-
-
-
-export { io, server, app };
